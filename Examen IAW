@@ -1,0 +1,33 @@
+cd C:\xampp\htdocs\wp
+
+$1ping  = Read-Host Introduce la idreion ip o pagina web
+$ping = ping $1ping
+
+
+
+foreach($linea in $ping){
+
+  $hola = $linea.split(",")[2] 
+  $hola  | select -Skip 1
+  
+}
+while ($incremento -eq $false)
+{ 
+   $incremento = 0
+} 
+
+
+$usuarios = "prueba" + $incremento
+$incremento++
+
+$tiempo = "Tiempo medio de respuesta de "
+$hola
+mkdir $usuarios
+cd ./$usuarios
+php.exe C:\xampp\php\wp-cli.phar core download
+php.exe C:\xampp\php\wp-cli.phar config create --dbname=$usuarios --dbuser=root
+php.exe C:\xampp\php\wp-cli.phar db create
+php.exe C:\xampp\php\wp-cli.phar core install --url=localhost/wp/$usuarios --title="Bienvenido" --admin_user=mi_usuario --admin_password=1234 --admin_email=miuser@email.com 
+php.exe C:\xampp\php\wp-cli.phar post create --post_title="$tiempo$1ping" --post_content="$hola" --post_type="post" --post_status="publish"
+
+
